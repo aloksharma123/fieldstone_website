@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Fieldstone — CRM for growing teams</title>
+<meta name="description" content="Fieldstone is a CRM built for growing businesses — leads, pipeline, accounts, and reporting in one place, priced per seat." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a1628;
+    --navy: #032d60;
+    --navy-light: #0a3d73;
+    --blue: #0176d3;
+    --blue-dark: #014486;
+    --blue-tint: #eaf4fc;
+    --paper: #ffffff;
+    --bg-soft: #f5f7fa;
+    --gold: #fe9339;
+    --border: #dde3ea;
+    --text-soft: #5b6472;
+    --font-display: "Space Grotesk", sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img, svg { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 15px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-ghost { background: transparent; border-color: rgba(255,255,255,0.4); color: #fff; }
+  .btn-ghost:hover { border-color: #fff; }
+  .btn-outline { background: #fff; border-color: var(--border); color: var(--ink); }
+  .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
+
+  /* --- Nav --- */
+  header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav {
+    max-width: 1180px; margin: 0 auto; padding: 0 28px;
+    height: 68px; display: flex; align-items: center; gap: 36px;
+  }
+  .logo { display: flex; align-items: center; gap: 9px; font-family: var(--font-display); font-weight: 700; font-size: 19px; }
+  .logo-mark { width: 26px; height: 26px; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 28px; font-size: 14.5px; font-weight: 500; color: var(--text-soft); }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-actions { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .nav-login { font-size: 14.5px; font-weight: 600; color: var(--ink); padding: 8px 14px; }
+  .nav-login:hover { color: var(--blue); }
+  .nav-cta { padding: 9px 18px; font-size: 14px; }
+  .mobile-toggle { display: none; background: none; border: none; font-size: 22px; cursor: pointer; margin-left: auto; }
+
+  /* --- Hero --- */
+  .hero {
+    padding: 88px 0 72px;
+    background: linear-gradient(180deg, var(--bg-soft) 0%, #fff 100%);
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .eyebrow {
+    display: inline-block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--blue-dark);
+    background: var(--blue-tint);
+    padding: 5px 13px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: var(--navy);
+  }
+  .hero p.lead {
+    font-size: 18px;
+    color: var(--text-soft);
+    max-width: 480px;
+    margin-bottom: 32px;
+  }
+  .hero-actions { display: flex; gap: 12px; margin-bottom: 28px; }
+  .hero-note { font-size: 13.5px; color: var(--text-soft); }
+
+  /* --- Hero visual: pipeline mockup --- */
+  .mockup {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 20px 50px -20px rgba(3,45,96,0.25);
+    overflow: hidden;
+  }
+  .mockup-bar {
+    background: var(--navy);
+    height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 14px;
+  }
+  .mockup-dot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.35); }
+  .mockup-body { padding: 18px; display: flex; gap: 12px; overflow-x: hidden; }
+  .mockup-col { flex: 1; min-width: 0; }
+  .mockup-col-head {
+    font-size: 11px; font-weight: 700; color: var(--text-soft);
+    text-transform: none; margin-bottom: 9px; display: flex; justify-content: space-between;
+  }
+  .mockup-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    border-radius: 5px;
+    padding: 9px 10px;
+    margin-bottom: 7px;
+  }
+  .mockup-card .t { font-size: 11.5px; font-weight: 600; margin-bottom: 3px; }
+  .mockup-card .v { font-size: 10.5px; color: #04844b; font-weight: 700; }
+  .mockup-col:nth-child(3) .mockup-card:first-child { border-left-color: var(--gold); }
+
+  /* --- Section shared --- */
+  section { padding: 84px 0; }
+  .section-head { max-width: 560px; margin-bottom: 48px; }
+  .section-head h2 { font-size: 34px; color: var(--navy); margin-bottom: 14px; }
+  .section-head p { font-size: 16.5px; color: var(--text-soft); }
+
+  /* --- Features --- */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .feature {
+    background: #fff;
+    padding: 28px 26px;
+  }
+  .feature-icon {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: var(--blue-tint);
+    color: var(--blue);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .feature h3 { font-size: 16.5px; margin-bottom: 7px; color: var(--ink); }
+  .feature p { font-size: 14px; color: var(--text-soft); line-height: 1.5; }
+
+  /* --- How it works --- */
+  .how { background: var(--bg-soft); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    counter-reset: step;
+  }
+  .step { position: relative; padding-top: 8px; }
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--blue);
+    border: 1.5px solid var(--blue);
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+    background: #fff;
+  }
+  .step h3 { font-size: 17px; margin-bottom: 8px; }
+  .step p { font-size: 14.5px; color: var(--text-soft); }
+
+  /* --- Pricing --- */
+  .pricing-card {
+    max-width: 440px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 36px;
+    background: #fff;
+  }
+  .pricing-card .amount { font-family: var(--font-display); font-size: 42px; color: var(--navy); }
+  .pricing-card .amount span { font-size: 15px; font-weight: 500; color: var(--text-soft); }
+  .pricing-list { margin: 26px 0; display: flex; flex-direction: column; gap: 11px; }
+  .pricing-list li { list-style: none; display: flex; gap: 10px; font-size: 14.5px; color: var(--ink); }
+  .pricing-list .check { color: var(--blue); font-weight: 700; flex-shrink: 0; }
+
+  /* --- CTA band --- */
+  .cta-band {
+    background: var(--navy);
+    color: #fff;
+    text-align: left;
+    padding: 72px 0;
+  }
+  .cta-band-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+  .cta-band h2 { font-size: 30px; color: #fff; max-width: 480px; }
+  .cta-band-actions { display: flex; gap: 12px; }
+
+  /* --- Footer --- */
+  footer { padding: 48px 0 36px; border-top: 1px solid var(--border); }
+  .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 32px; }
+  .footer-links { display: flex; gap: 28px; font-size: 14px; color: var(--text-soft); }
+  .footer-links a:hover { color: var(--ink); }
+  .footer-bottom { margin-top: 36px; font-size: 13px; color: var(--text-soft); }
+
+  /* --- Hero carousel ("moving window") --- */
+  .hero-text { position: relative; min-height: 268px; }
+  .hero-slide {
+    position: absolute; inset: 0;
+    opacity: 0; transform: translateY(14px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+    pointer-events: none;
+  }
+  .hero-slide.active { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .hero-dots { display: flex; gap: 8px; margin-top: 30px; }
+  .hero-dot {
+    width: 22px; height: 4px; border-radius: 2px;
+    background: var(--border); border: none; cursor: pointer;
+    padding: 0; transition: background 0.25s ease, width 0.25s ease;
+  }
+  .hero-dot.active { background: var(--blue); width: 34px; }
+
+  /* --- Scrolling ticker --- */
+  .ticker-wrap {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+    padding: 16px 0;
+    overflow: hidden;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+    animation: ticker-scroll 32s linear infinite;
+  }
+  .ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+  .ticker-chip {
+    display: flex; align-items: center; gap: 8px;
+    white-space: nowrap;
+    font-size: 13.5px; font-weight: 600; color: var(--navy);
+    background: #fff; border: 1px solid var(--border);
+    padding: 8px 16px; border-radius: 100px;
+  }
+  .ticker-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* --- Mockup pulse --- */
+  .mockup-card.updating { animation: card-pulse 1.6s ease; }
+  @keyframes card-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(1,118,211,0.35); }
+    70% { box-shadow: 0 0 0 7px rgba(1,118,211,0); }
+    100% { box-shadow: 0 0 0 0 rgba(1,118,211,0); }
+  }
+
+  /* --- Scroll reveal --- */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  .feature-grid .feature { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .feature-grid .feature:hover { transform: translateY(-3px); box-shadow: 0 10px 24px -14px rgba(3,45,96,0.3); z-index: 1; position: relative; }
+  .pricing-card { transition: box-shadow 0.25s ease, border-color 0.25s ease; }
+  .pricing-card:hover { border-color: var(--blue); box-shadow: 0 16px 36px -18px rgba(1,118,211,0.35); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide, .reveal, .feature-grid .feature, .pricing-card { transition: none !important; }
+    .ticker-track { animation: none !important; }
+    .mockup-card.updating { animation: none !important; }
+  }
+
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 36px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .mobile-toggle { display: block; }
+    .cta-band-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none">
+        <rect width="26" height="26" rx="6" fill="#0176D3"/>
+        <path d="M6 17L11 9L15 14L20 7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Fieldstone
+    </a>
+    <div class="nav-links">
+      <a href="#features">Product</a>
+      <a href="#how">How it works</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://claude-crm-project.vercel.app/login" class="nav-login">Log in</a>
+      <a href="https://claude-crm-project.vercel.app/signup" class="btn btn-primary nav-cta">Get started</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text" id="heroCarousel">
+      <div class="hero-slide active" data-slide="0">
+        <span class="eyebrow">Built for teams of 1 to 100</span>
+        <h1>Run your pipeline, not a spreadsheet.</h1>
+        <p class="lead">Fieldstone brings leads, accounts, contacts, and deals into one workspace — so your team always knows what's happening and what to do next.</p>
+        <div class="hero-actions">
+          <a href="https://claude-crm-project.vercel.app/signup" class="btn btn-primary">Create your workspace</a>
+          <a href="#features" class="btn btn-outline">See what's inside</a>
+        </div>
+        <div class="hero-note">No credit card to start. Your first seat is free.</div>
+      </div>
+      <div class="hero-slide" data-slide="1">
+        <span class="eyebrow">Per-seat, billed annually</span>
+        <h1>Add a teammate in under a minute.</h1>
+        <p class="lead">Invite your team by email, and they're working your pipeline the moment they accept — no setup calls, no onboarding project.</p>
+        <div class="hero-actions">
+          <a href="https://claude-crm-project.vercel.app/signup" class="btn btn-primary">Create your workspace</a>
+          <a href="#how" class="btn btn-outline">See how it works</a>
+        </div>
+        <div class="hero-note">₹4,999 per seat, per year.</div>
+      </div>
+      <div class="hero-slide" data-slide="2">
+        <span class="eyebrow">Built-in reporting</span>
+        <h1>Know where every deal actually stands.</h1>
+        <p class="lead">A weighted forecast by stage, custom reports from your own data, and a dashboard that updates the moment anything changes.</p>
+        <div class="hero-actions">
+          <a href="https://claude-crm-project.vercel.app/signup" class="btn btn-primary">Create your workspace</a>
+          <a href="#features" class="btn btn-outline">See what's inside</a>
+        </div>
+        <div class="hero-note">No credit card to start. Your first seat is free.</div>
+      </div>
+      <div class="hero-dots" id="heroDots"></div>
+    </div>
+    <div class="mockup">
+      <div class="mockup-bar">
+        <span class="mockup-dot"></span><span class="mockup-dot"></span><span class="mockup-dot"></span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-col">
+          <div class="mockup-col-head"><span>Qualified</span><span>2</span></div>
+          <div class="mockup-card"><div class="t">Harlow Textiles</div><div class="v">₹4,20,000</div></div>
+          <div class="mockup-card"><div class="t">Bluepeak Retail</div><div class="v">₹1,85,000</div></div>
+        </div>
+        <div class="mockup-col">
+          <div class="mockup-col-head"><span>Proposal</span><span>2</span></div>
+          <div class="mockup-card"><div class="t">Norden Logistics</div><div class="v">₹7,10,000</div></div>
+          <div class="mockup-card"><div class="t">Casewell &amp; Co</div><div class="v">₹2,40,000</div></div>
+        </div>
+        <div class="mockup-col">
+          <div class="mockup-col-head"><span>Won</span><span>1</span></div>
+          <div class="mockup-card"><div class="t">Arden Foods</div><div class="v">₹5,95,000</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap">
+  <div class="ticker-track" id="tickerTrack">
+    <span class="ticker-chip"><span class="dot"></span>Multi-tenant workspaces</span>
+    <span class="ticker-chip"><span class="dot"></span>Drag-and-drop pipeline</span>
+    <span class="ticker-chip"><span class="dot"></span>Google sign-in</span>
+    <span class="ticker-chip"><span class="dot"></span>Lead-to-opportunity conversion</span>
+    <span class="ticker-chip"><span class="dot"></span>Weighted forecasting</span>
+    <span class="ticker-chip"><span class="dot"></span>Per-seat annual pricing</span>
+    <span class="ticker-chip"><span class="dot"></span>Custom reports</span>
+    <span class="ticker-chip"><span class="dot"></span>Activity timelines</span>
+  </div>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Everything your sales team actually uses</h2>
+      <p>No bloated feature list — just the parts of a CRM that get used every day, built to work together from the start.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="feature-icon">L</div>
+        <h3>Leads</h3>
+        <p>Capture and qualify leads, then convert them into accounts, contacts, and opportunities in one step.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">A</div>
+        <h3>Accounts &amp; Contacts</h3>
+        <p>Every company and person your team talks to, with a full activity history — calls, notes, emails, tasks.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">O</div>
+        <h3>Opportunities</h3>
+        <p>A drag-and-drop pipeline board from first contact to closed-won, so nothing quietly falls through.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">P</div>
+        <h3>Products</h3>
+        <p>Keep a catalog of what you sell, ready to attach to any deal.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">C</div>
+        <h3>Cases</h3>
+        <p>Track customer queries and support requests without losing them in email.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">R</div>
+        <h3>Reports &amp; Forecast</h3>
+        <p>Build charts from your own data, and see a weighted forecast based on where deals actually stand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Up and running the same day</h2>
+      <p>No implementation project. Create a workspace and start working.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Create your workspace</h3>
+        <p>Sign up and your company gets its own isolated workspace — your data is never visible to anyone outside your team.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Bring in your team</h3>
+        <p>Invite teammates by email. Each one gets their own login and shows up in your shared pipeline instantly.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Work the pipeline</h3>
+        <p>Add leads, move deals across stages, log activity — and watch your dashboard and forecast update as you go.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Simple, per-seat pricing</h2>
+      <p>One plan. Pay for the seats your team actually uses, billed annually.</p>
+    </div>
+    <div class="pricing-card">
+      <div class="amount">₹4,999 <span>/ seat / year</span></div>
+      <ul class="pricing-list">
+        <li><span class="check">✓</span> Leads, Accounts, Contacts, Opportunities</li>
+        <li><span class="check">✓</span> Products, Cases, Forecast, Reports</li>
+        <li><span class="check">✓</span> Unlimited records, no storage caps</li>
+        <li><span class="check">✓</span> Team invites with seat-based access</li>
+        <li><span class="check">✓</span> Your first seat free, always</li>
+      </ul>
+      <a href="https://claude-crm-project.vercel.app/signup" class="btn btn-primary" style="width:100%">Get started</a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap cta-band-inner">
+    <h2>Give your team one place to work from.</h2>
+    <div class="cta-band-actions">
+      <a href="https://claude-crm-project.vercel.app/signup" class="btn" style="background:#fff;color:var(--navy)">Create your workspace</a>
+      <a href="https://claude-crm-project.vercel.app/login" class="btn btn-ghost">Log in</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-grid">
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 26 26" fill="none">
+        <rect width="26" height="26" rx="6" fill="#0176D3"/>
+        <path d="M6 17L11 9L15 14L20 7" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Fieldstone
+    </a>
+    <div class="footer-links">
+      <a href="#features">Product</a>
+      <a href="#pricing">Pricing</a>
+      <a href="https://claude-crm-project.vercel.app/login">Log in</a>
+      <a href="https://claude-crm-project.vercel.app/signup">Sign up</a>
+    </div>
+  </div>
+  <div class="wrap footer-bottom">© 2026 Fieldstone. Built for teams who'd rather sell than file paperwork.</div>
+</footer>
+
+<script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // --- Hero carousel ---
+  const slides = document.querySelectorAll(".hero-slide");
+  const dotsWrap = document.getElementById("heroDots");
+  let activeSlide = 0;
+  let carouselTimer;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement("button");
+    dot.className = "hero-dot" + (i === 0 ? " active" : "");
+    dot.setAttribute("aria-label", "Show slide " + (i + 1));
+    dot.addEventListener("click", () => goToSlide(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = dotsWrap.querySelectorAll(".hero-dot");
+
+  function goToSlide(i) {
+    slides[activeSlide].classList.remove("active");
+    dots[activeSlide].classList.remove("active");
+    activeSlide = i;
+    slides[activeSlide].classList.add("active");
+    dots[activeSlide].classList.add("active");
+  }
+
+  function nextSlide() { goToSlide((activeSlide + 1) % slides.length); }
+
+  if (!reducedMotion) {
+    carouselTimer = setInterval(nextSlide, 5500);
+    const carousel = document.getElementById("heroCarousel");
+    carousel.addEventListener("mouseenter", () => clearInterval(carouselTimer));
+    carousel.addEventListener("mouseleave", () => { carouselTimer = setInterval(nextSlide, 5500); });
+  }
+
+  // --- Ticker: duplicate content once for a seamless infinite loop ---
+  const track = document.getElementById("tickerTrack");
+  track.innerHTML += track.innerHTML;
+
+  // --- Scroll reveal for feature cards and steps ---
+  const revealTargets = document.querySelectorAll(".feature, .step, .pricing-card");
+  revealTargets.forEach((el) => el.classList.add("reveal"));
+
+  if ("IntersectionObserver" in window && !reducedMotion) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add("in-view"), i * 60);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealTargets.forEach((el) => observer.observe(el));
+  } else {
+    revealTargets.forEach((el) => el.classList.add("in-view"));
+  }
+
+  // --- Pipeline mockup: a small "alive" touch, pulses a card periodically ---
+  if (!reducedMotion) {
+    const mockupCards = document.querySelectorAll(".mockup-card");
+    setInterval(() => {
+      const card = mockupCards[Math.floor(Math.random() * mockupCards.length)];
+      card.classList.remove("updating");
+      void card.offsetWidth; // restart animation
+      card.classList.add("updating");
+    }, 3200);
+  }
+</script>
+</body>
+</html>
